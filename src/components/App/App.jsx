@@ -24,22 +24,19 @@ export class App extends Component {
 	}
 
 	getDataFromForm = (contact) => {
-		
-
-
 		this.setState((prevState) => {
-
 			const prevContacts = [...prevState.contacts];
+
 			prevContacts.map(prevContact => {
-				if (contact.name === prevContact.name) {
-					alert(`${contact.name} is already in contacts.`);
-					return {
-						contacts: [...prevState.contacts],
-					}
+				if (contact.name !== prevContact.name) {
+					return undefined;
+				}
+				alert(`${contact.name} is already in contacts.`);
+				return {
+					contacts: [...prevState.contacts],
 				}
 			})
 
-			
 			return {
 				contacts: [...prevState.contacts, contact],
 			}

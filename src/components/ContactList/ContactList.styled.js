@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const ContactListEl = styled.label`
+export const ContactListEl = styled.ul`
 	li{
 		display: flex;
 		gap: 10px;

@@ -11,6 +11,10 @@ export const Form = styled.form`
 		margin-bottom: 10px
 	}
 
+	input {
+		padding: 3px;
+	}
+
 	button {
 		padding: 5px 10px;
 		background-color: #fff;
