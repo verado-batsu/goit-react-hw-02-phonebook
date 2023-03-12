@@ -1,14 +1,17 @@
 import { Component } from "react";
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
-import { Form } from 'components/ContactForm/ContactForm.styled';
+import { Formik, Field, ErrorMessage } from 'formik';
+import * as yup from 'yup';
 
-export class ContactForm extends Component {
-	// state = {
-	// 	name: '',
-	// 	number: '',
-	// }
+import { FormStyled } from 'components/ContactForm/ContactForm.styled';
+	
 
+const schema = yup.object({
+	name: yup.string().required(),
+	number:	yup.number().required(),
+})
+export function ContactForm ({getDataFromForm}) {
 	// handleChange = (e) => {
 	// 	const nameOfInput = e.target.name;
 
@@ -17,61 +20,61 @@ export class ContactForm extends Component {
 	// 	})
 	// }
 
-	handleSubmit = (e) => {
-		e.preventDefault();
-		
-		const name = e.target.elements.name.value;
-		const number = e.target.elements.number.value;
+
+	const initialValues = {
+		name: '',
+		number: '',
+	}
+
+	const handleSubmit = (values, { resetForm }) => {
 
 		const contact = {
-			name,
-			number,
+			...values,
 			id: nanoid(),
 		}
 
-		// this.setState({
-		// 	name: '',
-		// 	number: '',
-		// })
+		resetForm();
 
-		this.props.getDataFromForm(contact);
+		getDataFromForm(contact);
 	}
 
-	render(){
-		// const { name, number } = this.state;
-
-		return (
-				<Form onSubmit={this.handleSubmit}>
+	return (
+			<Formik
+				initialValues={initialValues}
+				onSubmit={handleSubmit}
+				validationSchema={schema}
+			>
+				<FormStyled
+					// onSubmit={this.handleSubmit}
+					autoComplete="off"
+				>
 					<label>
 						<p>Name</p>
-						<input
+						<Field
 							type="text"
 							name="name"
 							pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
 							title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-							required
-							// onChange={this.handleChange}
-							// value={name}
 						/>
+						<ErrorMessage component="div" name="name" />
 					</label>
 					<label>
 						<p>Number</p>
-						<input
+						<Field
 							type="tel"
 							name="number"
 							pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
 							title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-							required
-							// onChange={this.handleChange}
-							// value={number}
 						/>
+						<ErrorMessage component="div" name="number" />
 					</label>
 					<button type="submit">Add contact</button>
-				</Form>
-			)
-	}
-	
+				</FormStyled>
+			</Formik>
+	)
 }
+	
+
 
 ContactForm.propTypes = {
 	getDataFromForm: PropTypes.func.isRequired,

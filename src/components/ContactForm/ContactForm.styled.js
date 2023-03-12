@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
+import { Form } from 'formik';
 
-export const Form = styled.form`
+export const FormStyled = styled(Form)`
 	padding: 10px;
 	margin-bottom: 20px;
 
@@ -12,7 +13,12 @@ export const Form = styled.form`
 	}
 
 	input {
+		/* display: block; */
 		padding: 3px;
+	}
+
+	div {
+		color: #ff0000;
 	}
 
 	button {
